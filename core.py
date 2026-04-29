@@ -3,7 +3,7 @@ import hashlib
 from itertools import batched, islice, chain
 from typing import Any, Iterable
 
-CAFS_ROOT = '/data/cagg/cafs_root'
+CAFS_ROOT = '/set/your/cafs_root'
 
 try:
     import msgpack
