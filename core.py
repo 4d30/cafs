@@ -110,6 +110,13 @@ def delete(content_id: str, cafs_root=CAFS_ROOT) -> None:
     os.unlink(path)
     return None
 
+
+def walk(cafs_root=CAFS_ROOT):
+    for root, dirs, files in os.walk(cafs_root):
+        for filename in files:
+            yield os.path.join(root, files)
+
+
 def kill_root(cafs_root=CAFS_ROOT):
     # 1. Expand path and perform safety checks
     target = os.path.abspath(cafs_root)
