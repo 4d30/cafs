@@ -114,7 +114,7 @@ def delete(content_id: str, cafs_root=CAFS_ROOT) -> None:
 def walk(cafs_root=CAFS_ROOT):
     for root, dirs, files in os.walk(cafs_root):
         for filename in files:
-            yield os.path.join(root, files)
+            yield os.path.join(root, filename)
 
 
 def kill_root(cafs_root=CAFS_ROOT):
