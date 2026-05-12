@@ -1,3 +1,0 @@
-[submodule "vendor/json-canonicalization"]
-	path = vendor/json-canonicalization
-	url = https://github.com/cyberphone/json-canonicalization.git
