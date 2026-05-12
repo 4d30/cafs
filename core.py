@@ -3,6 +3,8 @@ import hashlib
 from itertools import batched, islice, chain
 from typing import Any, Iterable
 
+from .rfc8785 import canonical_bytes
+
 CAFS_ROOT = '/set/your/cafs_root'
 
 try:
@@ -81,13 +83,14 @@ def put(json_obj: dict[str, Any], cafs_root=CAFS_ROOT) -> str:
         Returns:
             str: The content id  of the stored object.
     """
-    content_bytes = _serializer_dumps(json_obj)
+    storage_obj = _serializer_dumps(json_obj)
+    content_bytes = canonical_bytes(json_obj)
     cid = get_hash(content_bytes)
     path = _get_cid_path(cafs_root, cid)
     os.makedirs(os.path.dirname(path), mode=504, exist_ok=True)
     if not os.path.exists(path):
         with open(path, 'wb') as handle:
-            handle.write(content_bytes)
+            handle.write(storage_obj)
     os.chmod(path, 288)
     return cid
 
