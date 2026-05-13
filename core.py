@@ -72,6 +72,15 @@ def _get_cid_path(root_path: str, cid: str) -> str:
     return path
 
 
+def _crush(obj):
+    """
+    serialization MAY be type-lossy. This fn returns the object after
+    serialization has its way with the object.
+    """
+    return _serializer_loads(_serializer_dumps(obj))
+
+
+
 def put(json_obj: dict[str, Any], cafs_root=CAFS_ROOT) -> str:
     """
     Stores a serializable object in a CAFS.
@@ -83,6 +92,7 @@ def put(json_obj: dict[str, Any], cafs_root=CAFS_ROOT) -> str:
         Returns:
             str: The content id  of the stored object.
     """
+    json_obj = _crush(json_obj)
     storage_obj = _serializer_dumps(json_obj)
     content_bytes = canonicalize(json_obj)
     cid = get_hash(content_bytes)
