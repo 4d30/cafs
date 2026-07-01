@@ -5,7 +5,7 @@ from typing import Any, Iterable
 
 from jcs import canonicalize
 
-CAFS_ROOT = '/set/your/cafs_root'
+CAFS_ROOT = os.getenv('CAFS_ROOT')
 
 try:
     import msgpack
