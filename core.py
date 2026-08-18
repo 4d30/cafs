@@ -35,7 +35,7 @@ def _chunk_string(chunk_width: int, iterable: Iterable):
     joined = map(''.join, all_chunks)
     yield from joined
 
-def _get_cid_path(root_path: str, cid: str) -> str:
+def get_cid_path(root_path: str, cid: str) -> str:
     """Calculates the chunked path for a given CID
 
     SHARD POWER/WIDTH&DEPTH CALCULATION
@@ -96,7 +96,7 @@ def put(json_obj: dict[str, Any], cafs_root=CAFS_ROOT) -> str:
     storage_obj = _serializer_dumps(json_obj)
     content_bytes = canonicalize(json_obj)
     cid = get_hash(content_bytes)
-    path = _get_cid_path(cafs_root, cid)
+    path = get_cid_path(cafs_root, cid)
     os.makedirs(os.path.dirname(path), mode=504, exist_ok=True)
     if not os.path.exists(path):
         with open(path, 'wb') as handle:
@@ -105,7 +105,7 @@ def put(json_obj: dict[str, Any], cafs_root=CAFS_ROOT) -> str:
     return cid
 
 def get(content_id: str, cafs_root=CAFS_ROOT) -> dict[str, Any]:
-    path = _get_cid_path(cafs_root, content_id)
+    path = get_cid_path(cafs_root, content_id)
     if os.path.exists(path):
         with open(path, 'rb') as handle:
             obj = _serializer_loads(handle.read())
@@ -117,7 +117,7 @@ def _is_empty(directory):
     return not any(contents)
 
 def delete(content_id: str, cafs_root=CAFS_ROOT) -> None:
-    path = _get_cid_path(cafs_root, content_id)
+    path = get_cid_path(cafs_root, content_id)
     if not os.path.exists(path):
         pass  # postinserted
     os.unlink(path)
