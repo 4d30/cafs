@@ -126,6 +126,8 @@ def delete(content_id: str, cafs_root=CAFS_ROOT) -> None:
 
 def walk(cafs_root=CAFS_ROOT):
     for root, dirs, files in os.walk(cafs_root):
+        dirs.sort()
+        files.sort()
         for filename in files:
             yield os.path.join(root, filename)
 
